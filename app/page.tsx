@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { FoodMarquee } from '@/components/food-marquee'
 import { SiteShell } from '@/components/site-shell'
 import { WanfuLogo } from '@/components/wanfu-logo'
+import { VideoHero } from '@/components/video-hero'
 import { ChineseFrame, ChineseDivider, WanziBadge } from '@/components/chinese-frame'
 import { img, news } from '@/lib/site-data'
 
@@ -15,35 +16,10 @@ const ArrowLink = ({ href, children }: { href: string; children: React.ReactNode
 export default function Page() {
   return (
     <SiteShell>
-      {/* Hero Section with Marquee & Traditional Chinese Framed Card Overlay */}
-      <section className="relative bg-white pb-12 lg:pb-24">
-        <FoodMarquee />
-        <div className="relative z-10 mx-4 -mt-10 sm:mx-auto sm:max-w-xl lg:absolute lg:bottom-12 lg:right-[8%] lg:mt-0">
-          <ChineseFrame borderColor="gold" className="!p-8 sm:!p-10 border-l-4 border-l-[#9E2A22]">
-            <div className="mb-4 flex items-center justify-between">
-              <span className="eyebrow">AUTHENTIC SICHUAN CUISINE</span>
-              <span className="seal-badge">萬福名物</span>
-            </div>
-            
-            <div className="my-6 flex justify-center">
-              <WanfuLogo variant="authentic" className="scale-90 sm:scale-100" />
-            </div>
+      {/* 1. Cinematic Dual Video Hero Banner (水煮牛肉 & 四川麻婆豆腐) */}
+      <VideoHero />
 
-            <h1 className="display-title mt-6 text-2xl font-bold leading-tight sm:text-3xl text-[#1A1816] text-center sm:text-left">
-              今までに食べたことがない、<br />
-              鮮烈な四川の味。
-            </h1>
-            <p className="mt-6 text-sm leading-relaxed text-[#4A4640]">
-              花椒の香りと痺れ、唐辛子の熱、幾重にも重なる秘伝の旨味。萬福（MAN FUKU）は、本場四川の正統派と親しみある町中華を、心ゆくまで楽しめる一軒です。
-            </p>
-            <div className="mt-8">
-              <ArrowLink href="/charm">萬福の魅力を見る</ArrowLink>
-            </div>
-          </ChineseFrame>
-        </div>
-      </section>
-
-      {/* News & Announcements Section */}
+      {/* 2. News & Announcements Section */}
       <section className="border-y border-[#1A1816]/10 bg-[#F8F6F1] py-12">
         <div className="container-site grid gap-6 md:grid-cols-[200px_1fr]">
           <div className="flex items-center gap-3">
@@ -61,7 +37,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Philosophy Section with Chinese Divider, Mapo Tofu Image & Wanzi Badge */}
+      {/* 3. Philosophy Section with Chinese Divider, Mapo Tofu Image & Wanzi Badge */}
       <section className="py-24 lg:py-36">
         <div className="container-site mb-12">
           <ChineseDivider title="本場の香りを、日常の食卓へ" subtitle="OUR PHILOSOPHY" />
@@ -82,7 +58,7 @@ export default function Page() {
               深奥なる四川の刻。
             </h2>
             <p className="mt-7 text-sm leading-relaxed text-[#4A4640]">
-              正宗麻婆豆腐、水煮牛肉、麻辣毛肚。鮮烈な本格四川の味わいと、ご家族で楽しめる親しみ深い炒飯や点心を、ひとつの温かな食卓へ。
+              正宗麻婆豆腐、水煮牛肉、麻辣毛肚。鮮烈な本格四川の味わい与、ご家族で楽しめる親しみ深い炒飯や点心を、ひとつの温かな食卓へ。
             </p>
             <div className="mt-8">
               <ArrowLink href="/charm">こだわりを読む</ArrowLink>
@@ -91,8 +67,16 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Cuisine Showcase Section */}
-      <section className="bg-white py-24 border-y border-[#1A1816]/10">
+      {/* 4. Food Marquee Carousel (Relocated Below Philosophy for Visual Flow) */}
+      <section className="bg-white border-y border-[#1A1816]/10 py-10">
+        <div className="container-site mb-6 text-center">
+          <span className="eyebrow">GALLERY & DISHES</span>
+        </div>
+        <FoodMarquee />
+      </section>
+
+      {/* 5. Cuisine Showcase Section */}
+      <section className="bg-[#F8F6F1] py-24 border-b border-[#1A1816]/10">
         <div className="container-site">
           <ChineseDivider title="萬福の看板料理" subtitle="SPECIALTY CUISINE" />
 
@@ -102,7 +86,7 @@ export default function Page() {
               [img.guobaorou, '鍋包肉', '東北風豚ロース甘酢揚げ', '不辛 甘酸っぱい'],
               [img.shoronpo, '小籠包', '肉汁溢れる手包み小籠包', '人気点心']
             ].map(([src, name, desc, badge]) => (
-              <figure key={name} className="group overflow-hidden border border-[#1A1816]/10 bg-[#F8F6F1] shadow-sm transition-all hover:-translate-y-1 hover:shadow-md relative">
+              <figure key={name} className="group overflow-hidden border border-[#1A1816]/10 bg-white shadow-sm transition-all hover:-translate-y-1 hover:shadow-md relative">
                 <div className="absolute top-2 left-2 z-10 w-3 h-3 border-t-2 border-l-2 border-[#C69A56]" />
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <img className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" src={src} alt={name} />
@@ -128,7 +112,7 @@ export default function Page() {
         </div>
       </section>
 
-      {/* Gathering & Atmosphere Section */}
+      {/* 6. Gathering & Atmosphere Section */}
       <section className="py-24 lg:py-36">
         <div className="container-site grid gap-12 lg:grid-cols-2 lg:items-center">
           <div>
