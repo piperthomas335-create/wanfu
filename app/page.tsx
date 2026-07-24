@@ -1,29 +1,13 @@
-import { SiteHeader } from '@/components/site-header'
-import { Hero } from '@/components/hero'
-import { SellingPoints } from '@/components/selling-points'
-import { LunchSection } from '@/components/lunch-section'
-import { SignatureDishes } from '@/components/signature-dishes'
-import { GrandMenu } from '@/components/grand-menu'
-import { CourseSection } from '@/components/course-section'
-import { AccessSection } from '@/components/access-section'
-import { SiteFooter } from '@/components/site-footer'
-import { MobileBottomBar } from '@/components/mobile-bottom-bar'
+import Link from 'next/link'
+import { FoodMarquee } from '@/components/food-marquee'
+import { SiteShell } from '@/components/site-shell'
+import { img, news } from '@/lib/site-data'
 
-export default function Page() {
-  return (
-    <>
-      <SiteHeader />
-      <main>
-        <Hero />
-        <SellingPoints />
-        <LunchSection />
-        <SignatureDishes />
-        <GrandMenu />
-        <CourseSection />
-        <AccessSection />
-      </main>
-      <SiteFooter />
-      <MobileBottomBar />
-    </>
-  )
-}
+const ArrowLink=({href,children}:{href:string;children:React.ReactNode})=><Link className="arrow-link" href={href}><span>{children}</span><span aria-hidden>→</span></Link>
+export default function Page(){return <SiteShell>
+  <section className="relative bg-white pb-10 lg:pb-20"><FoodMarquee/><div className="relative z-10 mx-4 -mt-8 bg-paper p-8 shadow-xl sm:mx-auto sm:max-w-xl lg:absolute lg:bottom-10 lg:right-[8%] lg:mt-0 lg:p-12"><p className="eyebrow">Authentic Sichuan in Ichinomiya</p><h1 className="display-title mt-5 text-3xl sm:text-4xl">今までに食べたことがない、<br/>鮮烈な四川の味。</h1><p className="mt-8 text-sm leading-8 text-ink/65">花椒の香り、唐辛子の熱、幾重にも重なる旨味。萬福は、本格四川と親しみある中華料理を、気軽に楽しめる一軒です。</p><div className="mt-8"><ArrowLink href="/charm">萬福の魅力</ArrowLink></div></div></section>
+  <section className="border-y border-ink/10 bg-paper py-10"><div className="container-site grid gap-6 md:grid-cols-[180px_1fr]"><h2 className="font-serif text-lg">お知らせ</h2><div>{news.map(n=><div key={n.text} className="grid gap-2 border-b border-ink/10 py-3 text-sm sm:grid-cols-[120px_1fr]"><span className="text-[10px] tracking-wider text-vermilion">{n.date}</span><span>{n.text}</span></div>)}</div></div></section>
+  <section className="py-24 lg:py-36"><div className="container-site editorial-grid items-center"><div className="col-span-7"><img className="editorial-image" src={img.mapo} alt="萬福の四川麻婆豆腐"/></div><div className="col-span-5 bg-paper p-8 lg:-ml-12 lg:p-14"><p className="eyebrow">Our Philosophy</p><h2 className="display-title mt-4 text-3xl">本場の香りを、<br/>日常の食卓へ。</h2><p className="mt-7 text-sm leading-8 text-ink/65">正宗麻婆豆腐、水煮牛肉、麻辣毛肚。鮮烈な四川の味わいと、家族で楽しめる親しみ深い料理を一つの食卓に。</p><div className="mt-8"><ArrowLink href="/charm">こだわりを読む</ArrowLink></div></div></div></section>
+  <section className="bg-white py-24"><div className="container-site"><div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end"><div><p className="eyebrow">Cuisine</p><h2 className="display-title mt-4 text-3xl">萬福の料理</h2></div><p className="max-w-md text-sm leading-7 text-ink/60">痺れる辛さから、辛さを控えた一皿まで。人数や好みに合わせてお選びください。</p></div><div className="mt-14 grid gap-px bg-ink/10 md:grid-cols-3">{[[img.shuizhu,'水煮牛肉'],[img.guobaorou,'鍋包肉'],[img.shoronpo,'小籠包']].map(([src,name])=><figure key={name} className="bg-white"><img className="aspect-[4/3] w-full object-cover" src={src} alt={name}/><figcaption className="flex justify-between p-5 font-serif text-lg"><span>{name}</span><span>→</span></figcaption></figure>)}</div><div className="mx-auto mt-12 max-w-sm"><ArrowLink href="/menu">お料理を見る</ArrowLink></div></div></section>
+  <section className="py-24 lg:py-36"><div className="container-site grid gap-12 lg:grid-cols-2 lg:items-center"><div><p className="eyebrow">Gathering</p><h2 className="display-title mt-4 text-3xl">集う時間を、<br/>あたたかな一皿と。</h2><p className="mt-8 max-w-lg text-sm leading-8 text-ink/65">82席の店内には、テーブル席・お座敷・個室をご用意。ご家族のお食事から企業宴会までお迎えします。</p><div className="mt-9 max-w-sm"><ArrowLink href="/course">宴会・コース</ArrowLink></div></div><img className="aspect-[4/3] w-full object-cover" src={img.interiorTables} alt="萬福のテーブル席"/></div></section>
+</SiteShell>}

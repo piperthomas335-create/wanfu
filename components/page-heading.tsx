@@ -1,0 +1,1 @@
+export function PageHeading({en,title,lead}:{en:string;title:string;lead:string}){return <section className="page-hero"><div className="container-site"><p className="eyebrow">{en}</p><h1 className="mt-4">{title}</h1><p className="mt-8 max-w-2xl text-sm leading-8 text-ink/65">{lead}</p></div></section>}

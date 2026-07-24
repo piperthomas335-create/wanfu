@@ -1,0 +1,4 @@
+import { PageHeading } from '@/components/page-heading'
+import { SiteShell } from '@/components/site-shell'
+import { interiorPhotos } from '@/lib/site-data'
+export default function InteriorPage(){return <SiteShell><PageHeading en="Interior & Seats" title="店内の様子" lead="木の温もりと、肩肘張らない居心地。お一人でも、ご家族でも、大人数でも過ごしやすい多彩なお席をご用意しています。"/><section className="container-site py-20 lg:py-32"><div className="grid gap-16 lg:grid-cols-12">{interiorPhotos.map((p,i)=><figure key={p.title} className={`${i===0?'lg:col-span-7':i===1?'lg:col-span-5 lg:mt-28':i===2?'lg:col-span-5':i===3?'lg:col-span-7 lg:mt-20':'lg:col-span-6 lg:col-start-4'} `}><img className={`w-full object-cover ${i===0?'aspect-[4/5]':i===3?'aspect-square':'aspect-[4/3]'}`} src={p.src} alt={p.title}/><figcaption className="border-b border-ink/15 py-5"><h2 className="font-serif text-xl tracking-wider">{p.title}</h2><p className="mt-2 text-xs text-ink/55">{p.caption}</p></figcaption></figure>)}</div></section></SiteShell>}
