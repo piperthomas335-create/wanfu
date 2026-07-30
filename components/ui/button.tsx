@@ -1,57 +1,90 @@
-import { Button as ButtonPrimitive } from '@base-ui/react/button'
+import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
-
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button relative inline-flex shrink-0 items-center justify-center font-serif font-bold text-sm tracking-wider whitespace-nowrap transition-all outline-none select-none focus-visible:ring-2 focus-visible:ring-[#C69A56] disabled:pointer-events-none disabled:opacity-50 cursor-pointer overflow-hidden rounded-sm",
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground [a]:hover:bg-primary/80',
+        vermilion:
+          'bg-[#9E2A22] text-[#F8F6F1] border-2 border-[#C69A56] hover:bg-[#85221B] shadow-xl hover:shadow-2xl hover:scale-105 active:scale-95',
+        cream:
+          'bg-[#F8F6F1] text-[#1A1816] border-2 border-[#C69A56] hover:bg-[#C69A56] hover:text-white shadow-lg hover:shadow-xl hover:scale-105 active:scale-95',
+        gold:
+          'bg-[#C69A56] text-[#1A1816] border-2 border-[#C69A56] hover:bg-[#B08443] hover:text-white shadow-lg hover:scale-105 active:scale-95',
         outline:
-          'border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
-        secondary:
-          'bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground',
+          'bg-black/60 text-[#F8F6F1] border-2 border-[#C69A56] backdrop-blur-md hover:bg-black/80 hover:border-white shadow-md hover:scale-105 active:scale-95',
         ghost:
-          'hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50',
-        destructive:
-          'bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40',
-        link: 'text-primary underline-offset-4 hover:underline',
+          'border-transparent bg-transparent text-[#1A1816] hover:bg-[#C69A56]/15 hover:text-[#9E2A22]',
       },
       size: {
-        default:
-          'h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
-        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: 'h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
-        icon: 'size-8',
-        'icon-xs':
-          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
-        'icon-sm':
-          'size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg',
-        'icon-lg': 'size-9',
+        default: 'h-11 px-7 py-2.5 gap-2 text-sm',
+        sm: 'h-9 px-4 py-1.5 gap-1.5 text-xs',
+        lg: 'h-13 px-9 py-3.5 gap-3 text-base',
+        icon: 'size-10 p-0',
       },
     },
     defaultVariants: {
-      variant: 'default',
+      variant: 'vermilion',
       size: 'default',
     },
   },
 )
 
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  showCorners?: boolean
+}
+
 function Button({
   className,
-  variant = 'default',
+  variant = 'vermilion',
   size = 'default',
+  showCorners = true,
+  children,
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
+}: ButtonProps) {
+  const isGhost = variant === 'ghost'
+
   return (
-    <ButtonPrimitive
+    <button
       data-slot="button"
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
-    />
+    >
+      {/* Inner Hairline Frame for Traditional Chinese Craftsmanship */}
+      {!isGhost && (
+        <span className="absolute inset-1 border border-[#C69A56]/40 pointer-events-none rounded-[1px]" />
+      )}
+
+      {/* Traditional Auspicious Corner Flourishes (祥云/回纹角饰) */}
+      {showCorners && !isGhost && (
+        <>
+          <svg className="absolute top-0.5 left-0.5 w-3 h-3 text-[#C69A56] fill-current pointer-events-none opacity-80" viewBox="0 0 12 12">
+            <path d="M0,0 H12 V3 H3 V12 H0 Z M4,4 H8 V8 H4 Z" />
+          </svg>
+          <svg className="absolute top-0.5 right-0.5 w-3 h-3 text-[#C69A56] fill-current pointer-events-none opacity-80 scale-x-[-1]" viewBox="0 0 12 12">
+            <path d="M0,0 H12 V3 H3 V12 H0 Z M4,4 H8 V8 H4 Z" />
+          </svg>
+          <svg className="absolute bottom-0.5 left-0.5 w-3 h-3 text-[#C69A56] fill-current pointer-events-none opacity-80 scale-y-[-1]" viewBox="0 0 12 12">
+            <path d="M0,0 H12 V3 H3 V12 H0 Z M4,4 H8 V8 H4 Z" />
+          </svg>
+          <svg className="absolute bottom-0.5 right-0.5 w-3 h-3 text-[#C69A56] fill-current pointer-events-none opacity-80 scale-x-[-1] scale-y-[-1]" viewBox="0 0 12 12">
+            <path d="M0,0 H12 V3 H3 V12 H0 Z M4,4 H8 V8 H4 Z" />
+          </svg>
+        </>
+      )}
+
+      {/* Button Content */}
+      <span className="relative z-10 flex items-center justify-center gap-2">{children}</span>
+
+      {/* Hover Sheen Animation Effect */}
+      {variant === 'vermilion' && (
+        <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 group-hover/button:translate-x-full" />
+      )}
+    </button>
   )
 }
 

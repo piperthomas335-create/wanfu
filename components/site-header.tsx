@@ -9,10 +9,8 @@ import { WanfuLogo } from '@/components/wanfu-logo'
 
 const links = [
   ['/', 'ホーム'],
-  ['/charm', '萬福の魅力'],
-  ['/menu', 'お料理'],
+  ['/daily', '日替わり'],
   ['/course', '宴会・コース'],
-  ['/interior', '店内の様子'],
   ['/store', '店舗情報']
 ] as const
 
@@ -21,37 +19,37 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#1A1816]/10 bg-[#F8F6F1]/95 backdrop-blur-md transition-all">
+    <header className="sticky top-0 z-50 border-b border-[#1A1816]/10 bg-[#F8F6F1]/95 backdrop-blur-md transition-all select-none">
       <div className="mx-auto flex h-24 max-w-[1540px] items-center justify-between px-5 lg:px-8">
         {/* Brand Logo with Authentic Vector Design */}
         <Link href="/" className="flex items-center" onClick={() => setOpen(false)}>
           <WanfuLogo variant="compact" />
         </Link>
 
-        {/* Desktop Navigation */}
-        <nav aria-label="メインナビゲーション" className="hidden items-stretch self-stretch lg:flex">
+        {/* Desktop Navigation (Re-architected to 4 Core Categories) */}
+        <nav aria-label="メインナビゲーション" className="hidden items-stretch self-stretch lg:flex gap-2">
           {links.map(([href, label]) => {
-            const isActive = pathname === href
+            const isActive = pathname === href || (href !== '/' && pathname.startsWith(href))
             return (
               <Link
                 key={href}
                 href={href}
-                className={`relative flex items-center px-4 font-serif text-sm font-semibold tracking-wider transition-colors hover:text-[#9E2A22] ${
+                className={`relative flex items-center px-6 font-serif text-base font-bold tracking-wider transition-colors hover:text-[#9E2A22] ${
                   isActive ? 'text-[#9E2A22]' : 'text-[#1A1816]'
                 }`}
               >
                 {label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-3 right-3 h-0.5 bg-[#9E2A22]" />
+                  <span className="absolute bottom-0 left-4 right-4 h-1 bg-[#9E2A22] rounded-t-sm" />
                 )}
               </Link>
             )
           })}
         </nav>
 
-        {/* Header Action CTAs: Address & Parking + Phone & Reservation (Strictly Fixed Equal Heights h-[56px]) */}
+        {/* Header Action CTAs: Address & Parking + Phone & Reservation */}
         <div className="hidden items-center gap-3 xl:flex">
-          {/* 1. Address & Parking Button (Jade Green + Gold Huiwen Border) */}
+          {/* 1. Address & Parking Button */}
           <Link
             href="/store"
             className="group relative flex h-[56px] items-center gap-3 bg-[#1E5647] px-4 text-[#F8F6F1] transition-all hover:bg-[#164337] border-2 border-[#C69A56] shadow-sm overflow-hidden"
@@ -69,7 +67,7 @@ export function SiteHeader() {
             </div>
           </Link>
 
-          {/* 2. Phone & Reservation Button (Vermilion Red + Gold Huiwen Border) */}
+          {/* 2. Phone & Reservation Button */}
           <a
             href={shop.telHref}
             className="group relative flex h-[56px] items-center gap-3 bg-[#9E2A22] px-5 text-[#F8F6F1] transition-all hover:bg-[#B83228] border-2 border-[#C69A56] shadow-md overflow-hidden"
@@ -88,16 +86,16 @@ export function SiteHeader() {
         {/* Mobile Hamburger Button */}
         <button
           type="button"
-          className="grid size-11 place-items-center border border-[#1A1816]/20 bg-white/60 lg:hidden"
+          className="grid size-11 place-items-center border-2 border-[#C69A56] bg-[#F8F6F1] lg:hidden"
           aria-label={open ? 'メニューを閉じる' : 'メニューを開く'}
           aria-expanded={open}
           onClick={() => setOpen(v => !v)}
         >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          {open ? <X className="size-5 text-[#9E2A22]" /> : <Menu className="size-5 text-[#1A1816]" />}
         </button>
       </div>
 
-      {/* Mobile Drawer Navigation */}
+      {/* Mobile Drawer Navigation (4 Core Categories) */}
       {open ? (
         <nav aria-label="モバイルナビゲーション" className="border-t border-[#1A1816]/10 bg-[#F8F6F1] px-6 py-6 lg:hidden">
           {links.map(([href, label]) => (
@@ -105,7 +103,7 @@ export function SiteHeader() {
               key={href}
               href={href}
               onClick={() => setOpen(false)}
-              className="flex items-center justify-between border-b border-[#1A1816]/10 py-4 font-serif text-lg font-bold text-[#1A1816]"
+              className="flex items-center justify-between border-b border-[#1A1816]/10 py-4 font-serif text-lg font-bold text-[#1A1816] hover:text-[#9E2A22]"
             >
               <span>{label}</span>
               <span className="text-[#9E2A22]" aria-hidden>→</span>

@@ -60,7 +60,7 @@ export function ChineseFrame({
 }
 
 /**
- * Traditional Chinese Wanzi Pattern Badge (万字纹/卍字纹角标)
+ * Traditional Chinese Wanzi Pattern Badge
  */
 export function WanziBadge({ text = '麻婆豆腐', className = '' }: { text?: string; className?: string }) {
   return (
@@ -97,37 +97,36 @@ export function WanziBadge({ text = '麻婆豆腐', className = '' }: { text?: s
 }
 
 /**
- * Traditional Chinese Section Header Divider
+ * Traditional Chinese Section Header Divider (PERFECTLY CENTERED, BALANCED BOUNDS)
  */
 export function ChineseDivider({ title, subtitle }: { title?: string; subtitle?: string }) {
   return (
-    <div className="flex flex-col items-center my-8 select-none">
-      <div className="flex items-center gap-4 w-full max-w-lg">
-        <div className="flex-1 flex items-center">
-          <div className="h-[1px] w-full bg-[#C69A56]/40" />
-          <svg viewBox="0 0 16 16" className="w-4 h-4 text-[#C69A56] fill-current flex-shrink-0">
+    <div className="flex flex-col items-center text-center my-6 sm:my-10 select-none w-full mx-auto">
+      {subtitle && (
+        <span className="block font-serif text-xs sm:text-sm font-bold tracking-[0.4em] text-[#9E2A22] uppercase mb-2">
+          {subtitle}
+        </span>
+      )}
+
+      <div className="flex items-center justify-center gap-3 sm:gap-6 w-full max-w-5xl mx-auto px-4">
+        <div className="flex-1 flex items-center justify-end">
+          <div className="h-[1.5px] w-full max-w-[280px] bg-gradient-to-r from-transparent via-[#C69A56] to-[#C69A56]" />
+          <svg viewBox="0 0 16 16" className="w-4 sm:w-5 h-4 sm:h-5 text-[#C69A56] fill-current flex-shrink-0 ml-1">
             <path d="M0,0 H16 V16 H0 Z M2,2 V14 H14 V2 Z M4,4 H12 V12 H4 Z M6,6 V10 H10 V6 Z" />
           </svg>
         </div>
 
-        <div className="text-center">
-          {subtitle && (
-            <span className="block font-serif text-xs font-bold tracking-[0.35em] text-[#9E2A22] uppercase">
-              {subtitle}
-            </span>
-          )}
-          {title && (
-            <h3 className="font-serif text-2xl font-bold tracking-widest text-[#1A1816] mt-1">
-              {title}
-            </h3>
-          )}
-        </div>
+        {title && (
+          <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-wider text-[#1A1816] text-center shrink-0 px-2 sm:px-4 leading-tight">
+            {title}
+          </h3>
+        )}
 
-        <div className="flex-1 flex items-center">
-          <svg viewBox="0 0 16 16" className="w-4 h-4 text-[#C69A56] fill-current flex-shrink-0">
+        <div className="flex-1 flex items-center justify-start">
+          <svg viewBox="0 0 16 16" className="w-4 sm:w-5 h-4 sm:h-5 text-[#C69A56] fill-current flex-shrink-0 mr-1">
             <path d="M0,0 H16 V16 H0 Z M2,2 V14 H14 V2 Z M4,4 H12 V12 H4 Z M6,6 V10 H10 V6 Z" />
           </svg>
-          <div className="h-[1px] w-full bg-[#C69A56]/40" />
+          <div className="h-[1.5px] w-full max-w-[280px] bg-gradient-to-l from-transparent via-[#C69A56] to-[#C69A56]" />
         </div>
       </div>
     </div>

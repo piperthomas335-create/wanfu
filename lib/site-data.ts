@@ -1,9 +1,9 @@
 export const shop = {
   name: '四川料理 萬福', nameKana: 'マンフク', nameEn: 'MAN FUKU', tel: '0586-51-1111', telHref: 'tel:0586511111',
   address: '愛知県一宮市奥町字田畑26-1', access: '名鉄尾西線「開明駅」より徒歩約7分／西尾張中央道沿い', parking: '専用駐車場 22台完備',
-  seats: '総席数 82席（お座敷・個室・テーブル席）', lunch: '11:00〜14:30', dinner: '17:00〜24:00', holiday: '年中無休', lineUrl: '#line',
+  seats: '総席数 90席（お座敷・個室・テーブル席）', lunch: '11:00〜14:30', dinner: '17:00〜24:00', holiday: '年中無休', lineUrl: '#line',
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=愛知県一宮市奥町字田畑26-1+四川料理+萬福',
-  mapEmbed: 'https://www.google.com/maps?q=%E6%84%9B%E7%9F%A5%E7%9C%8C%E4%B8%80%E5%AE%AE%E5%B8%82%E5%A5%A5%E7%94%BA%E5%AD%97%E7%94%B0%E7%95%9F26-1&output=embed',
+  mapEmbed: 'https://maps.google.com/maps?q=%E6%84%9B%E7%9F%A5%E7%9C%8C%E4%B8%80%E5%AE%AE%E5%B8%82%E5%A5%A5%E7%94%BA%E5%AD%97%E7%94%B0%E7%95%9F26-1+%E5%9B%9B%E5%B7%9D%E6%96%99%E7%90%86+%E8%90%AC%E7%A6%8F&t=&z=16&ie=UTF8&iwloc=&output=embed',
 }
 
 export const img = {
