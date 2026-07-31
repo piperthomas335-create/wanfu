@@ -57,14 +57,7 @@ export default function Page() {
             <p className="mt-5 text-sm leading-relaxed text-[#4A4640]">
               正宗麻婆豆腐、水煮牛肉、麻辣毛肚。鮮烈な本格四川の味わい与、ご家族で楽しめる親しみ深い炒飯や点心を、ひとつの温かな食卓へ。
             </p>
-            <div className="mt-6">
-              <Link href="/charm">
-                <Button variant="vermilion" size="sm">
-                  <span>こだわりを読む</span>
-                  <span>→</span>
-                </Button>
-              </Link>
-            </div>
+
           </div>
         </div>
       </section>
@@ -115,7 +108,7 @@ export default function Page() {
               あたたかな一皿と。
             </h2>
             <p className="mt-6 max-w-lg text-sm leading-relaxed text-[#4A4640]">
-              総席数82席の広い店内には、テーブル席・お座敷・プライベート個室をご用意。ご家族の団らんから企業宴会・飲み放題コースまで、まごころ込めてお迎えします。
+              総席数90席の広い店内には、テーブル席・お座敷・プライベート個室をご用意。ご家族の団らんから企業宴会・飲み放題コースまで、まごころ込めてお迎えします。
             </p>
             <div className="mt-8 max-w-sm">
               <Link href="/course">
@@ -129,7 +122,7 @@ export default function Page() {
           <div className="relative">
             <img className="aspect-[4/3] w-full rounded-sm object-cover shadow-xl border-2 border-[#C69A56]" src={img.interiorTables} alt="萬福のテーブル席" />
             <div className="absolute -top-3 -right-3 rounded-sm bg-[#1E5647] p-3.5 text-[#F8F6F1] shadow-lg border-2 border-[#C69A56]">
-              <span className="font-serif text-xs font-bold tracking-widest">全82席 / 個室完備</span>
+              <span className="font-serif text-xs font-bold tracking-widest">全90席 / 個室完備</span>
             </div>
           </div>
         </div>

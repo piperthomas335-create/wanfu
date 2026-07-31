@@ -128,15 +128,7 @@ export function FoodMarqueeSection() {
         </div>
       </div>
 
-      {/* 3. Integrated Action CTA Button */}
-      <div className="mt-10 text-center relative z-10">
-        <Link href="/menu">
-          <Button variant="vermilion" size="lg">
-            <span>全お料理メニューを見る</span>
-            <span className="text-lg">→</span>
-          </Button>
-        </Link>
-      </div>
+
 
       {/* 4. Interactive Dish Lightbox Modal (Framer Motion) */}
       <AnimatePresence>
