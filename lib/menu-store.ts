@@ -66,51 +66,45 @@ export const DEFAULT_5DAYS_MENU: MenuItem[] = [
   }
 ]
 
-const STORE_KEY_5DAYS = 'wanfu_5days_menu_v2'
+const STORE_KEY_5DAYS = 'wanfu_5days_menu_v3'
 
 export function getStored5DaysMenu(): MenuItem[] {
   if (typeof window === 'undefined') return DEFAULT_5DAYS_MENU
   try {
     const raw = localStorage.getItem(STORE_KEY_5DAYS)
-    if (raw) return JSON.parse(raw)
+    if (raw) {
+      const parsed = JSON.parse(raw)
+      // Check if data contains valid titles (not test strings)
+      if (Array.isArray(parsed) && parsed.length === 5 && !parsed[0].title.includes('测试')) {
+        return parsed
+      }
+    }
   } catch (e) {
     console.error('Failed to load stored 5days menu', e)
   }
   return DEFAULT_5DAYS_MENU
 }
 
-export async function saveStored5DaysMenu(menu: MenuItem[]) {
+export function saveStored5DaysMenu(menu: MenuItem[]) {
   if (typeof window !== 'undefined') {
     try {
       localStorage.setItem(STORE_KEY_5DAYS, JSON.stringify(menu))
       window.dispatchEvent(new Event('wanfu_menu_updated'))
-
-      // Sync with global API route for server-wide persistence
-      await fetch('/api/menu', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(menu)
-      })
     } catch (e) {
       console.error('Failed to save 5days menu', e)
     }
   }
 }
 
-export async function fetchRemoteMenu(): Promise<MenuItem[]> {
-  try {
-    const res = await fetch('/api/menu')
-    if (res.ok) {
-      const data = await res.json()
-      if (Array.isArray(data) && data.length > 0) {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(STORE_KEY_5DAYS, JSON.stringify(data))
-        }
-        return data
-      }
+export function resetStored5DaysMenu(): MenuItem[] {
+  if (typeof window !== 'undefined') {
+    try {
+      localStorage.removeItem(STORE_KEY_5DAYS)
+      localStorage.removeItem('wanfu_5days_menu_v2')
+      window.dispatchEvent(new Event('wanfu_menu_updated'))
+    } catch (e) {
+      console.error('Failed to reset menu', e)
     }
-  } catch (e) {
-    console.error('Failed to fetch remote menu', e)
   }
-  return getStored5DaysMenu()
+  return DEFAULT_5DAYS_MENU
 }

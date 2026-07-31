@@ -8,7 +8,8 @@ import { img } from '@/lib/site-data'
 import {
   MenuItem,
   getStored5DaysMenu,
-  saveStored5DaysMenu
+  saveStored5DaysMenu,
+  resetStored5DaysMenu
 } from '@/lib/menu-store'
 
 const PRESET_IMAGES = [
@@ -21,10 +22,6 @@ const PRESET_IMAGES = [
   { label: '手包み小籠包', url: img.shoronpo }
 ]
 
-/**
- * Automatically compress high-res phone/PC photos to lightweight Web JPEG (max 800px, ~80KB)
- * to avoid browser localStorage 5MB quota errors & Vercel 4.5MB payload limits.
- */
 function compressImageFile(file: File, maxWidth = 800, quality = 0.75): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -79,7 +76,6 @@ export default function AdminPage() {
     setMenu5Days(updated)
   }
 
-  // Auto-Compressing Local File Upload Handler for 5Days Menu Item
   const handleFileUpload = async (index: number, file: File) => {
     if (!file) return
     setIsUploading(true)
@@ -95,9 +91,15 @@ export default function AdminPage() {
     }
   }
 
-  const handleSave = async () => {
-    await saveStored5DaysMenu(menu5Days)
+  const handleSave = () => {
+    saveStored5DaysMenu(menu5Days)
     showToast('✅ 月〜金 5日間の定食メニュー（主菜・小菜①・小菜②・価格）を保存・更新しました！')
+  }
+
+  const handleReset = () => {
+    const defaultData = resetStored5DaysMenu()
+    setMenu5Days(defaultData)
+    showToast('↺ メニューを初期状態（油淋鶏・麻婆豆腐・回鍋肉・黒酢豚・担々麺）にリセットしました！')
   }
 
   return (
@@ -123,10 +125,19 @@ export default function AdminPage() {
               <h3 className="font-serif text-xl font-bold text-[#1A1816]">
                 月曜日〜金曜日 日替わり定食メニュー編集（全5日）
               </h3>
-              <Button variant="vermilion" size="md" onClick={handleSave} disabled={isUploading}>
-                <span>保存してサイトに反映</span>
-                <span>💾</span>
-              </Button>
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-[#1A1816] font-serif text-xs font-bold rounded border border-gray-400 transition-colors"
+                >
+                  ↺ 初期化（リセット）
+                </button>
+                <Button variant="vermilion" size="md" onClick={handleSave} disabled={isUploading}>
+                  <span>保存してサイトに反映</span>
+                  <span>💾</span>
+                </Button>
+              </div>
             </div>
 
             <div className="grid gap-6">
