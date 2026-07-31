@@ -5,13 +5,13 @@ import { img } from '@/lib/site-data'
 export interface MenuItem {
   day: string
   shortDay: string
-  title: string       // 主菜名
-  side1: string       // サイド料理①
-  side2: string       // サイド料理②
-  price: string       // 価格
-  image: string       // 画像
-  note1?: string      // 補足・注記行① (例: ライスおかわり自由)
-  note2?: string      // 補足・注記行② (例: セルフコーヒー1杯無料)
+  title: string
+  side1: string
+  side2: string
+  price: string
+  image: string
+  note1?: string
+  note2?: string
 }
 
 export const DEFAULT_5DAYS_MENU: MenuItem[] = [
@@ -62,17 +62,17 @@ export const DEFAULT_5DAYS_MENU: MenuItem[] = [
   {
     day: '金曜日',
     shortDay: '金曜',
-    title: '特製担々麺＆半チャーハン',
-    side1: '黄金パラパラ半チャーハン',
-    side2: '蒸したて小籠包（1個）',
-    price: '850円(税込)',
+    title: '海鮮豆腐',
+    side1: '厚切り卵焼き',
+    side2: 'ユーリンチー',
+    price: '1100円(税込)',
     image: img.chahan,
-    note1: '※ライスおかわり自由',
-    note2: '※セルフコーヒー1杯無料'
+    note1: '白ごはん、シーズン サラダ、たまごスープ、漬物付き',
+    note2: '飲み物：お茶（Hot/Ice）またコーヒー（Hot/Ice）'
   }
 ]
 
-const STORE_KEY_5DAYS = 'wanfu_5days_menu_v4'
+const STORE_KEY_5DAYS = 'wanfu_5days_menu_v5'
 
 export function getStored5DaysMenu(): MenuItem[] {
   if (typeof window === 'undefined') return DEFAULT_5DAYS_MENU
@@ -90,15 +90,40 @@ export function getStored5DaysMenu(): MenuItem[] {
   return DEFAULT_5DAYS_MENU
 }
 
-export function saveStored5DaysMenu(menu: MenuItem[]) {
+export async function saveStored5DaysMenu(menu: MenuItem[]) {
   if (typeof window !== 'undefined') {
     try {
       localStorage.setItem(STORE_KEY_5DAYS, JSON.stringify(menu))
       window.dispatchEvent(new Event('wanfu_menu_updated'))
+
+      // POST sync to global API route for cloud persistence
+      await fetch('/api/menu', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(menu)
+      })
     } catch (e) {
-      console.error('Failed to save 5days menu', e)
+      console.error('Failed to save 5days menu to cloud', e)
     }
   }
+}
+
+export async function fetchRemoteMenu(): Promise<MenuItem[]> {
+  try {
+    const res = await fetch('/api/menu', { cache: 'no-store' })
+    if (res.ok) {
+      const data = await res.json()
+      if (Array.isArray(data) && data.length > 0) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(STORE_KEY_5DAYS, JSON.stringify(data))
+        }
+        return data
+      }
+    }
+  } catch (e) {
+    console.error('Failed to fetch remote menu', e)
+  }
+  return getStored5DaysMenu()
 }
 
 export function resetStored5DaysMenu(): MenuItem[] {

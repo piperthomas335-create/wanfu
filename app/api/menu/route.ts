@@ -9,10 +9,13 @@ export interface MenuItem {
   side2: string
   price: string
   image: string
-  tag: string
+  note1?: string
+  note2?: string
 }
 
-let inMemoryMenu: MenuItem[] = [
+const CLOUD_BLOB_URL = 'https://jsonblob.com/api/jsonBlob/019fb687-71b7-705a-b38d-a9ce0f8c4342'
+
+const DEFAULT_5DAYS_MENU: MenuItem[] = [
   {
     day: '月曜日',
     shortDay: '月曜',
@@ -21,7 +24,8 @@ let inMemoryMenu: MenuItem[] = [
     side2: '特製中華スープ＆ザーサイ',
     price: '750円(税込)',
     image: img.teishoku1,
-    tag: '月曜日人気No.1'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   },
   {
     day: '火曜日',
@@ -31,7 +35,8 @@ let inMemoryMenu: MenuItem[] = [
     side2: 'ザーサイ・本日のスープ',
     price: '750円(税込)',
     image: img.mapo,
-    tag: '花椒香る名物'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   },
   {
     day: '水曜日',
@@ -41,7 +46,8 @@ let inMemoryMenu: MenuItem[] = [
     side2: '特製スープ・お漬物',
     price: '750円(税込)',
     image: img.teishoku2,
-    tag: 'ご飯が進む味'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   },
   {
     day: '木曜日',
@@ -51,33 +57,60 @@ let inMemoryMenu: MenuItem[] = [
     side2: '特製中華スープ',
     price: '750円(税込)',
     image: img.guobaorou,
-    tag: '甘酸っぱくてフルーティ'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   },
   {
     day: '金曜日',
     shortDay: '金曜',
-    title: '特製担々麺＆半チャーハン',
-    side1: '黄金パラパラ半チャーハン',
-    side2: '蒸したて小籠包（1個）',
-    price: '850円(税込)',
+    title: '海鮮豆腐',
+    side1: '厚切り卵焼き',
+    side2: 'ユーリンチー',
+    price: '1100円(税込)',
     image: img.chahan,
-    tag: '週末ご褒美ランチ'
+    note1: '白ごはん、シーズン サラダ、たまごスープ、漬物付き',
+    note2: '飲み物：お茶（Hot/Ice）またコーヒー（Hot/Ice）'
   }
 ]
 
 export async function GET() {
-  return NextResponse.json(inMemoryMenu)
+  try {
+    const res = await fetch(CLOUD_BLOB_URL, {
+      cache: 'no-store',
+      headers: { 'Accept': 'application/json' }
+    })
+    if (res.ok) {
+      const data = await res.json()
+      if (Array.isArray(data) && data.length > 0) {
+        return NextResponse.json(data)
+      }
+    }
+  } catch (e) {
+    console.error('Failed to fetch cloud menu blob', e)
+  }
+  return NextResponse.json(DEFAULT_5DAYS_MENU)
 }
 
 export async function POST(request: Request) {
   try {
     const body = await request.json()
     if (Array.isArray(body) && body.length > 0) {
-      inMemoryMenu = body
-      return NextResponse.json({ success: true, menu: inMemoryMenu })
+      const putRes = await fetch(CLOUD_BLOB_URL, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(body)
+      })
+
+      if (putRes.ok) {
+        return NextResponse.json({ success: true, menu: body })
+      }
     }
-    return NextResponse.json({ success: false, error: 'Invalid menu format' }, { status: 400 })
+    return NextResponse.json({ success: false, error: 'Invalid payload' }, { status: 400 })
   } catch (error) {
-    return NextResponse.json({ success: false, error: 'Failed to parse request' }, { status: 500 })
+    console.error('Failed to update cloud menu blob', error)
+    return NextResponse.json({ success: false, error: 'Cloud sync failed' }, { status: 500 })
   }
 }
