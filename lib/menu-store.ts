@@ -5,12 +5,13 @@ import { img } from '@/lib/site-data'
 export interface MenuItem {
   day: string
   shortDay: string
-  title: string
-  side1: string
-  side2: string
-  price: string
-  image: string
-  tag: string
+  title: string       // 主菜名
+  side1: string       // サイド料理①
+  side2: string       // サイド料理②
+  price: string       // 価格
+  image: string       // 画像
+  note1?: string      // 補足・注記行① (例: ライスおかわり自由)
+  note2?: string      // 補足・注記行② (例: セルフコーヒー1杯無料)
 }
 
 export const DEFAULT_5DAYS_MENU: MenuItem[] = [
@@ -22,7 +23,8 @@ export const DEFAULT_5DAYS_MENU: MenuItem[] = [
     side2: '特製中華スープ＆ザーサイ',
     price: '750円(税込)',
     image: img.teishoku1,
-    tag: '月曜日人気No.1'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   },
   {
     day: '火曜日',
@@ -32,7 +34,8 @@ export const DEFAULT_5DAYS_MENU: MenuItem[] = [
     side2: 'ザーサイ・本日のスープ',
     price: '750円(税込)',
     image: img.mapo,
-    tag: '花椒香る名物'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   },
   {
     day: '水曜日',
@@ -42,7 +45,8 @@ export const DEFAULT_5DAYS_MENU: MenuItem[] = [
     side2: '特製スープ・お漬物',
     price: '750円(税込)',
     image: img.teishoku2,
-    tag: 'ご飯が進む味'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   },
   {
     day: '木曜日',
@@ -52,7 +56,8 @@ export const DEFAULT_5DAYS_MENU: MenuItem[] = [
     side2: '特製中華スープ',
     price: '750円(税込)',
     image: img.guobaorou,
-    tag: '甘酸っぱくてフルーティ'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   },
   {
     day: '金曜日',
@@ -62,11 +67,12 @@ export const DEFAULT_5DAYS_MENU: MenuItem[] = [
     side2: '蒸したて小籠包（1個）',
     price: '850円(税込)',
     image: img.chahan,
-    tag: '週末ご褒美ランチ'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   }
 ]
 
-const STORE_KEY_5DAYS = 'wanfu_5days_menu_v3'
+const STORE_KEY_5DAYS = 'wanfu_5days_menu_v4'
 
 export function getStored5DaysMenu(): MenuItem[] {
   if (typeof window === 'undefined') return DEFAULT_5DAYS_MENU
@@ -74,8 +80,7 @@ export function getStored5DaysMenu(): MenuItem[] {
     const raw = localStorage.getItem(STORE_KEY_5DAYS)
     if (raw) {
       const parsed = JSON.parse(raw)
-      // Check if data contains valid titles (not test strings)
-      if (Array.isArray(parsed) && parsed.length === 5 && !parsed[0].title.includes('测试')) {
+      if (Array.isArray(parsed) && parsed.length === 5) {
         return parsed
       }
     }
@@ -100,7 +105,6 @@ export function resetStored5DaysMenu(): MenuItem[] {
   if (typeof window !== 'undefined') {
     try {
       localStorage.removeItem(STORE_KEY_5DAYS)
-      localStorage.removeItem('wanfu_5days_menu_v2')
       window.dispatchEvent(new Event('wanfu_menu_updated'))
     } catch (e) {
       console.error('Failed to reset menu', e)

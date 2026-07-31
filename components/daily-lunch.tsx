@@ -87,7 +87,7 @@ export function DailyLunchSection() {
         </p>
       </div>
 
-      {/* 2. STREAMLINED TOP RECOMMENDATION CARD (主菜名, 小菜①, 小菜②, 価格) */}
+      {/* 2. STREAMLINED TOP RECOMMENDATION CARD (主菜名, サイド料理①, サイド料理②, 価格, 補足小字) */}
       <div className="container-site relative z-20 mt-8 sm:mt-10">
         <div className="max-w-3xl mx-auto bg-white rounded-lg border-2 border-[#C69A56] shadow-xl overflow-hidden flex flex-col sm:flex-row items-stretch">
           {/* Featured Dish Photo */}
@@ -101,15 +101,10 @@ export function DailyLunchSection() {
               <span className="seal-badge text-xs shadow-md">
                 {isWeekend && selectedDayIndex === 0 ? '来週月曜日' : `${activeFeature.day}`}
               </span>
-              {activeFeature.tag && (
-                <span className="rounded bg-[#9E2A22] px-3 py-1 font-serif text-xs font-bold text-[#F8F6F1] border border-[#C69A56]">
-                  {activeFeature.tag}
-                </span>
-              )}
             </div>
           </div>
 
-          {/* Streamlined Dish Info (Strictly: 主菜名, 小菜①, 小菜②, 価格) */}
+          {/* Streamlined Dish Info (主菜名, サイド料理①, サイド料理②, 価格, 任意注記行) */}
           <div className="w-full sm:w-1/2 p-6 sm:p-8 space-y-4 text-left flex flex-col justify-center bg-white">
             <div>
               {/* Price */}
@@ -127,17 +122,25 @@ export function DailyLunchSection() {
                 {activeFeature.title}
               </h3>
 
-              {/* Side Dishes Checklist (小菜① & 小菜②) */}
+              {/* Side Dishes Checklist (サイド料理① & サイド料理②) */}
               <div className="mt-4 pt-3 border-t border-[#1A1816]/10 space-y-2.5">
                 <span className="font-serif text-xs font-bold text-[#8C867D] block">【セット内容】</span>
                 <div className="flex items-center gap-2 text-sm text-[#1A1816]">
-                  <span className="text-[#9E2A22] font-bold">小菜①：</span>
+                  <span className="text-[#9E2A22] font-bold shrink-0">サイド料理①：</span>
                   <span>{activeFeature.side1 || '手作り水餃子（2個）'}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-[#1A1816]">
-                  <span className="text-[#9E2A22] font-bold">小菜②：</span>
+                  <span className="text-[#9E2A22] font-bold shrink-0">サイド料理②：</span>
                   <span>{activeFeature.side2 || 'ザーサイ・本日の特製スープ'}</span>
                 </div>
+
+                {/* Optional 2-Line Sub-notes (只在有填写时显示) */}
+                {(activeFeature.note1 || activeFeature.note2) && (
+                  <div className="pt-2 border-t border-dashed border-[#1A1816]/10 space-y-1 text-xs text-[#8C867D] font-serif">
+                    {activeFeature.note1 && <p>{activeFeature.note1}</p>}
+                    {activeFeature.note2 && <p>{activeFeature.note2}</p>}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -146,7 +149,7 @@ export function DailyLunchSection() {
 
       {/* 3. SIMPLIFIED AUTHENTIC JAPANESE SCROLL SECTION */}
       <div className="container-site relative z-20 mt-12 sm:mt-14">
-        {/* SIMPLIFIED SUBTITLE */}
+        {/* SUBTITLE */}
         <div className="text-center mb-6 sm:mb-8">
           <span className="font-serif text-xs font-bold tracking-[0.3em] text-[#9E2A22] block uppercase">
             WEEKLY LUNCH MENU

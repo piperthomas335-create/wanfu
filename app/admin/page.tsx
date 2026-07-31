@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { SiteShell } from '@/components/site-shell'
-import { ChineseDivider } from '@/components/chinese-frame'
+import { ChineseDivider, ChineseFrame } from '@/components/chinese-frame'
 import { Button } from '@/components/ui/button'
 import { img } from '@/lib/site-data'
 import {
@@ -57,13 +57,37 @@ function compressImageFile(file: File, maxWidth = 800, quality = 0.75): Promise<
 }
 
 export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [passwordInput, setPasswordInput] = useState('')
+  const [passError, setPassError] = useState(false)
+
   const [menu5Days, setMenu5Days] = useState<MenuItem[]>([])
   const [toastMessage, setToastMessage] = useState('')
   const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
+    // Check if session is already authenticated
+    if (typeof window !== 'undefined') {
+      const auth = sessionStorage.getItem('wanfu_admin_auth')
+      if (auth === 'true') {
+        setIsAuthenticated(true)
+      }
+    }
     setMenu5Days(getStored5DaysMenu())
   }, [])
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (passwordInput === '123') {
+      setIsAuthenticated(true)
+      setPassError(false)
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem('wanfu_admin_auth', 'true')
+      }
+    } else {
+      setPassError(true)
+    }
+  }
 
   const showToast = (msg: string) => {
     setToastMessage(msg)
@@ -93,7 +117,7 @@ export default function AdminPage() {
 
   const handleSave = () => {
     saveStored5DaysMenu(menu5Days)
-    showToast('✅ 月〜金 5日間の定食メニュー（主菜・小菜①・小菜②・価格）を保存・更新しました！')
+    showToast('✅ 月〜金 5日間の定食メニュー（主菜・サイド料理①・サイド料理②・価格・補足小字）を保存・更新しました！')
   }
 
   const handleReset = () => {
@@ -102,6 +126,63 @@ export default function AdminPage() {
     showToast('↺ メニューを初期状態（油淋鶏・麻婆豆腐・回鍋肉・黒酢豚・担々麺）にリセットしました！')
   }
 
+  // 1. PASSWORD PROTECTION MODAL IF NOT AUTHENTICATED
+  if (!isAuthenticated) {
+    return (
+      <SiteShell>
+        <section className="bg-[#FBF9F5] py-24 select-none min-h-[70vh] flex items-center justify-center">
+          <div className="w-full max-w-md px-4">
+            <ChineseFrame borderColor="gold">
+              <div className="text-center space-y-6">
+                <div className="w-12 h-12 border-2 border-[#9E2A22] rounded flex items-center justify-center p-1 bg-white mx-auto shadow">
+                  <span className="font-serif text-xs font-extrabold text-[#9E2A22] leading-tight">
+                    萬福<br />管理
+                  </span>
+                </div>
+
+                <div>
+                  <h3 className="font-serif text-2xl font-extrabold text-[#1A1816]">
+                    管理者認証
+                  </h3>
+                  <p className="text-xs text-[#8C867D] font-serif mt-1">
+                    パスワードを入力してログインしてください
+                  </p>
+                </div>
+
+                <form onSubmit={handlePasswordSubmit} className="space-y-4 text-left">
+                  <div>
+                    <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">
+                      パスワード（初期: 123）
+                    </label>
+                    <input
+                      type="password"
+                      value={passwordInput}
+                      onChange={(e) => setPasswordInput(e.target.value)}
+                      placeholder="パスワードを入力"
+                      className="w-full p-3 border-2 border-[#C69A56] rounded text-center text-lg font-mono focus:ring-2 focus:ring-[#9E2A22]"
+                      autoFocus
+                    />
+                    {passError && (
+                      <p className="text-xs font-serif text-[#9E2A22] font-bold mt-1.5 text-center">
+                        ⚠️ パスワードが正しくありません。
+                      </p>
+                    )}
+                  </div>
+
+                  <Button variant="vermilion" size="md" className="w-full">
+                    <span>ログイン</span>
+                    <span>🔓</span>
+                  </Button>
+                </form>
+              </div>
+            </ChineseFrame>
+          </div>
+        </section>
+      </SiteShell>
+    )
+  }
+
+  // 2. UNLOCKED ADMIN PANEL
   return (
     <SiteShell>
       <section className="bg-[#FBF9F5] pt-10 pb-20 select-none relative min-h-screen">
@@ -109,7 +190,7 @@ export default function AdminPage() {
           {/* Header */}
           <ChineseDivider title="萬福 メニュー管理者パネル" subtitle="ADMIN MANAGEMENT PANEL" />
           <p className="mt-2 text-center text-sm text-[#4A4640] max-w-xl mx-auto font-sans">
-            月〜金曜日の日替わり定食（主菜名・小菜①・小菜②・価格・画像）を自由に編集できます。
+            月〜金曜日の日替わり定食（主菜名・サイド料理①・サイド料理②・価格・補足小字）を自由編集できます。
           </p>
 
           {/* Toast Notification */}
@@ -198,21 +279,32 @@ export default function AdminPage() {
                       </div>
                     </div>
 
-                    {/* Fields: 主菜名, 小菜①, 小菜②, 価格, タグ */}
+                    {/* Fields: 主菜名, サイド料理①, サイド料理②, 価格, 補足注記①, 補足注記② */}
                     <div className="md:col-span-7 space-y-3">
-                      <div>
-                        <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">主菜名（メイン料理タイトル）</label>
-                        <input
-                          type="text"
-                          value={item.title}
-                          onChange={(e) => handle5DaysChange(idx, 'title', e.target.value)}
-                          className="w-full p-2 border border-[#C69A56] rounded text-sm font-serif focus:ring-2 focus:ring-[#9E2A22]"
-                        />
+                      <div className="grid sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">主菜名（メイン料理タイトル）</label>
+                          <input
+                            type="text"
+                            value={item.title}
+                            onChange={(e) => handle5DaysChange(idx, 'title', e.target.value)}
+                            className="w-full p-2 border border-[#C69A56] rounded text-sm font-serif focus:ring-2 focus:ring-[#9E2A22]"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">価格（税込表示）</label>
+                          <input
+                            type="text"
+                            value={item.price}
+                            onChange={(e) => handle5DaysChange(idx, 'price', e.target.value)}
+                            className="w-full p-2 border border-[#C69A56] rounded text-sm font-serif"
+                          />
+                        </div>
                       </div>
 
                       <div className="grid sm:grid-cols-2 gap-3">
                         <div>
-                          <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">小菜①（セット料理1）</label>
+                          <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">サイド料理①</label>
                           <input
                             type="text"
                             value={item.side1 || ''}
@@ -222,7 +314,7 @@ export default function AdminPage() {
                           />
                         </div>
                         <div>
-                          <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">小菜②（セット料理2）</label>
+                          <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">サイド料理②</label>
                           <input
                             type="text"
                             value={item.side2 || ''}
@@ -233,24 +325,25 @@ export default function AdminPage() {
                         </div>
                       </div>
 
-                      <div className="grid sm:grid-cols-2 gap-3">
-                        <div>
-                          <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">価格（税込表示）</label>
+                      {/* Optional 2-Line Sub-notes (留空则前台不显示) */}
+                      <div className="p-3 bg-[#F8F5EE] rounded border border-[#C69A56]/60 space-y-2">
+                        <span className="block text-xs font-serif font-bold text-[#9E2A22]">
+                          【任意】サイド料理下の補足小字（留空なら非表示）
+                        </span>
+                        <div className="grid sm:grid-cols-2 gap-2">
                           <input
                             type="text"
-                            value={item.price}
-                            onChange={(e) => handle5DaysChange(idx, 'price', e.target.value)}
-                            className="w-full p-2 border border-[#C69A56] rounded text-sm font-serif"
+                            value={item.note1 || ''}
+                            onChange={(e) => handle5DaysChange(idx, 'note1', e.target.value)}
+                            className="w-full p-2 border border-[#C69A56] rounded text-xs font-serif bg-white"
+                            placeholder="補足1（例：※ライスおかわり自由）"
                           />
-                        </div>
-                        <div>
-                          <label className="block text-xs font-serif font-bold text-[#1A1816] mb-1">特徴タグ</label>
                           <input
                             type="text"
-                            value={item.tag || ''}
-                            onChange={(e) => handle5DaysChange(idx, 'tag', e.target.value)}
-                            className="w-full p-2 border border-[#C69A56] rounded text-sm font-serif"
-                            placeholder="例：月曜日人気No.1"
+                            value={item.note2 || ''}
+                            onChange={(e) => handle5DaysChange(idx, 'note2', e.target.value)}
+                            className="w-full p-2 border border-[#C69A56] rounded text-xs font-serif bg-white"
+                            placeholder="補足2（例：※セルフコーヒー1杯無料）"
                           />
                         </div>
                       </div>
