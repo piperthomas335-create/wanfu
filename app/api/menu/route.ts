@@ -1,5 +1,4 @@
-'use client'
-
+import { NextResponse } from 'next/server'
 import { img } from '@/lib/site-data'
 
 export interface MenuItem {
@@ -13,7 +12,7 @@ export interface MenuItem {
   tag: string
 }
 
-export const DEFAULT_5DAYS_MENU: MenuItem[] = [
+let inMemoryMenu: MenuItem[] = [
   {
     day: '月曜日',
     shortDay: '月曜',
@@ -66,51 +65,19 @@ export const DEFAULT_5DAYS_MENU: MenuItem[] = [
   }
 ]
 
-const STORE_KEY_5DAYS = 'wanfu_5days_menu_v2'
-
-export function getStored5DaysMenu(): MenuItem[] {
-  if (typeof window === 'undefined') return DEFAULT_5DAYS_MENU
-  try {
-    const raw = localStorage.getItem(STORE_KEY_5DAYS)
-    if (raw) return JSON.parse(raw)
-  } catch (e) {
-    console.error('Failed to load stored 5days menu', e)
-  }
-  return DEFAULT_5DAYS_MENU
+export async function GET() {
+  return NextResponse.json(inMemoryMenu)
 }
 
-export async function saveStored5DaysMenu(menu: MenuItem[]) {
-  if (typeof window !== 'undefined') {
-    try {
-      localStorage.setItem(STORE_KEY_5DAYS, JSON.stringify(menu))
-      window.dispatchEvent(new Event('wanfu_menu_updated'))
-
-      // Sync with global API route for server-wide persistence
-      await fetch('/api/menu', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(menu)
-      })
-    } catch (e) {
-      console.error('Failed to save 5days menu', e)
-    }
-  }
-}
-
-export async function fetchRemoteMenu(): Promise<MenuItem[]> {
+export async function POST(request: Request) {
   try {
-    const res = await fetch('/api/menu')
-    if (res.ok) {
-      const data = await res.json()
-      if (Array.isArray(data) && data.length > 0) {
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(STORE_KEY_5DAYS, JSON.stringify(data))
-        }
-        return data
-      }
+    const body = await request.json()
+    if (Array.isArray(body) && body.length > 0) {
+      inMemoryMenu = body
+      return NextResponse.json({ success: true, menu: inMemoryMenu })
     }
-  } catch (e) {
-    console.error('Failed to fetch remote menu', e)
+    return NextResponse.json({ success: false, error: 'Invalid menu format' }, { status: 400 })
+  } catch (error) {
+    return NextResponse.json({ success: false, error: 'Failed to parse request' }, { status: 500 })
   }
-  return getStored5DaysMenu()
 }
