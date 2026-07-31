@@ -13,7 +13,7 @@ export interface MenuItem {
   note2?: string
 }
 
-const CLOUD_BLOB_URL = 'https://jsonblob.com/api/jsonBlob/019fb687-71b7-705a-b38d-a9ce0f8c4342'
+const CLOUD_BLOB_URL = 'https://jsonblob.com/api/jsonBlob/019fb6a2-4c03-7f9b-8b13-63af9f052610'
 
 const DEFAULT_5DAYS_MENU: MenuItem[] = [
   {
@@ -63,13 +63,13 @@ const DEFAULT_5DAYS_MENU: MenuItem[] = [
   {
     day: '金曜日',
     shortDay: '金曜',
-    title: '海鮮豆腐',
-    side1: '厚切り卵焼き',
-    side2: 'ユーリンチー',
-    price: '1100円(税込)',
+    title: '特製担々麺＆半チャーハン',
+    side1: '黄金パラパラ半チャーハン',
+    side2: '蒸したて小籠包（1個）',
+    price: '850円(税込)',
     image: img.chahan,
-    note1: '白ごはん、シーズン サラダ、たまごスープ、漬物付き',
-    note2: '飲み物：お茶（Hot/Ice）またコーヒー（Hot/Ice）'
+    note1: '※ライスおかわり自由',
+    note2: '※セルフコーヒー1杯無料'
   }
 ]
 
