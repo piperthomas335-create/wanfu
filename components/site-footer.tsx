@@ -43,9 +43,15 @@ export function SiteFooter() {
           </div>
         </div>
       </div>
-      <div className="container-site mt-16 flex flex-col justify-between gap-4 border-t border-[#F8F6F1]/10 pt-8 text-[11px] tracking-wider text-[#8C867D] sm:flex-row">
+      <div className="container-site mt-16 flex flex-col justify-between items-center gap-4 border-t border-[#F8F6F1]/10 pt-8 text-[11px] tracking-wider text-[#8C867D] sm:flex-row">
         <span>© {new Date().getFullYear()} 四川料理 萬福 (MAN FUKU). All Rights Reserved.</span>
-        <span>正宗老四川 / 伝統四川料理</span>
+        <div className="flex items-center gap-4">
+          <span>正宗老四川 / 伝統四川料理</span>
+          <span className="text-[#F8F6F1]/20">|</span>
+          <Link href="/admin" className="text-[#8C867D] hover:text-[#C69A56] transition-colors flex items-center gap-1">
+            <span>⚙ 管理者パネル</span>
+          </Link>
+        </div>
       </div>
     </footer>
   )
