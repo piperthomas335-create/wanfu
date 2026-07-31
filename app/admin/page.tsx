@@ -21,9 +21,48 @@ const PRESET_IMAGES = [
   { label: '手包み小籠包', url: img.shoronpo }
 ]
 
+/**
+ * Automatically compress high-res phone/PC photos to lightweight Web JPEG (max 800px, ~80KB)
+ * to avoid browser localStorage 5MB quota errors & Vercel 4.5MB payload limits.
+ */
+function compressImageFile(file: File, maxWidth = 800, quality = 0.75): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      const imgObj = new Image()
+      imgObj.onload = () => {
+        const canvas = document.createElement('canvas')
+        let width = imgObj.width
+        let height = imgObj.height
+
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width)
+          width = maxWidth
+        }
+
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext('2d')
+        if (ctx) {
+          ctx.drawImage(imgObj, 0, 0, width, height)
+          const dataUrl = canvas.toDataURL('image/jpeg', quality)
+          resolve(dataUrl)
+        } else {
+          resolve(e.target?.result as string)
+        }
+      }
+      imgObj.onerror = (err) => reject(err)
+      imgObj.src = e.target?.result as string
+    }
+    reader.onerror = (err) => reject(err)
+    reader.readAsDataURL(file)
+  })
+}
+
 export default function AdminPage() {
   const [menu5Days, setMenu5Days] = useState<MenuItem[]>([])
   const [toastMessage, setToastMessage] = useState('')
+  const [isUploading, setIsUploading] = useState(false)
 
   useEffect(() => {
     setMenu5Days(getStored5DaysMenu())
@@ -40,22 +79,24 @@ export default function AdminPage() {
     setMenu5Days(updated)
   }
 
-  // Local File Upload Handler for 5Days Menu Item
-  const handleFileUpload = (index: number, file: File) => {
+  // Auto-Compressing Local File Upload Handler for 5Days Menu Item
+  const handleFileUpload = async (index: number, file: File) => {
     if (!file) return
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      const result = e.target?.result as string
-      if (result) {
-        handle5DaysChange(index, 'image', result)
-        showToast(`📁 【${menu5Days[index].day}】の画像ファイルを読み込みました！`)
-      }
+    setIsUploading(true)
+    try {
+      const compressedDataUrl = await compressImageFile(file)
+      handle5DaysChange(index, 'image', compressedDataUrl)
+      showToast(`📁 【${menu5Days[index].day}】の画像を最適化して読み込みました！`)
+    } catch (e) {
+      console.error('Image compression failed', e)
+      showToast('⚠️ 画像の読み込みに失敗しました。別の画像をお試しください。')
+    } finally {
+      setIsUploading(false)
     }
-    reader.readAsDataURL(file)
   }
 
-  const handleSave = () => {
-    saveStored5DaysMenu(menu5Days)
+  const handleSave = async () => {
+    await saveStored5DaysMenu(menu5Days)
     showToast('✅ 月〜金 5日間の定食メニュー（主菜・小菜①・小菜②・価格）を保存・更新しました！')
   }
 
@@ -82,7 +123,7 @@ export default function AdminPage() {
               <h3 className="font-serif text-xl font-bold text-[#1A1816]">
                 月曜日〜金曜日 日替わり定食メニュー編集（全5日）
               </h3>
-              <Button variant="vermilion" size="md" onClick={handleSave}>
+              <Button variant="vermilion" size="md" onClick={handleSave} disabled={isUploading}>
                 <span>保存してサイトに反映</span>
                 <span>💾</span>
               </Button>
@@ -123,6 +164,9 @@ export default function AdminPage() {
                           }}
                           className="block w-full text-xs text-[#4A4640] file:mr-2 file:py-1 file:px-3 file:rounded file:border-0 file:text-xs file:font-bold file:bg-[#9E2A22] file:text-white hover:file:bg-[#8B1E17] cursor-pointer"
                         />
+                        <span className="text-[10px] text-[#8C867D] block">
+                          ※スマホやカメラの写真（大容量）も自動でWeb最適化圧縮されます。
+                        </span>
                       </div>
 
                       {/* Presets */}
@@ -206,7 +250,7 @@ export default function AdminPage() {
             </div>
 
             <div className="text-center pt-4">
-              <Button variant="vermilion" size="lg" onClick={handleSave}>
+              <Button variant="vermilion" size="lg" onClick={handleSave} disabled={isUploading}>
                 <span>月〜金 全5日間の変更を保存</span>
                 <span>💾</span>
               </Button>
