@@ -48,7 +48,7 @@ export function BanquetCourseSection() {
       <div className="container-site relative z-10">
         <ChineseDivider title="宴会・コース案内" subtitle="BANQUET & COURSES" />
         <p className="mt-2 text-center text-sm text-[#4A4640] max-w-xl mx-auto font-sans">
-          総席数82席、お座敷・プライベート個室完備。ご家族のお祝いから会社のご宴会までご予約承ります。
+          総席数90席、お座敷・プライベート個室完備。ご家族のお祝いから会社のご宴会までご予約承ります。
         </p>
       </div>
 

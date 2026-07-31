@@ -22,7 +22,7 @@ export function CourseSection() {
             ご宴会・食べ飲み放題
           </h2>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            82席・お座敷・個室完備。ご家族のお祝いから会社の宴会まで、人数と予算に合わせてお選びいただけます。
+            90席・お座敷・個室完備。ご家族のお祝いから会社の宴会まで、人数と予算に合わせてお選びいただけます。
           </p>
         </div>
 
