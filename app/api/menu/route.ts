@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { Redis } from '@upstash/redis'
 import { img } from '@/lib/site-data'
 
 export interface MenuItem {
@@ -13,7 +14,20 @@ export interface MenuItem {
   note2?: string
 }
 
-const CLOUD_BLOB_URL = 'https://jsonblob.com/api/jsonBlob/019fb6a2-4c03-7f9b-8b13-63af9f052610'
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
+function getRedisClient() {
+  const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN
+
+  if (url && token) {
+    return new Redis({ url, token })
+  }
+  return null
+}
+
+const REDIS_KEY = 'wanfu_5days_menu_v1'
 
 const DEFAULT_5DAYS_MENU: MenuItem[] = [
   {
@@ -75,18 +89,15 @@ const DEFAULT_5DAYS_MENU: MenuItem[] = [
 
 export async function GET() {
   try {
-    const res = await fetch(CLOUD_BLOB_URL, {
-      cache: 'no-store',
-      headers: { 'Accept': 'application/json' }
-    })
-    if (res.ok) {
-      const data = await res.json()
-      if (Array.isArray(data) && data.length > 0) {
+    const redis = getRedisClient()
+    if (redis) {
+      const data = await redis.get<MenuItem[]>(REDIS_KEY)
+      if (data && Array.isArray(data) && data.length > 0) {
         return NextResponse.json(data)
       }
     }
   } catch (e) {
-    console.error('Failed to fetch cloud menu blob', e)
+    console.error('Redis GET error:', e)
   }
   return NextResponse.json(DEFAULT_5DAYS_MENU)
 }
@@ -95,22 +106,15 @@ export async function POST(request: Request) {
   try {
     const body = await request.json()
     if (Array.isArray(body) && body.length > 0) {
-      const putRes = await fetch(CLOUD_BLOB_URL, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(body)
-      })
-
-      if (putRes.ok) {
-        return NextResponse.json({ success: true, menu: body })
+      const redis = getRedisClient()
+      if (redis) {
+        await redis.set(REDIS_KEY, body)
       }
+      return NextResponse.json({ success: true, menu: body })
     }
     return NextResponse.json({ success: false, error: 'Invalid payload' }, { status: 400 })
   } catch (error) {
-    console.error('Failed to update cloud menu blob', error)
-    return NextResponse.json({ success: false, error: 'Cloud sync failed' }, { status: 500 })
+    console.error('Redis POST error:', error)
+    return NextResponse.json({ success: false, error: 'Cloud KV sync failed' }, { status: 500 })
   }
 }
