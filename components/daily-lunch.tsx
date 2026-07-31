@@ -89,7 +89,7 @@ export function DailyLunchSection() {
           subtitle={isWeekend ? "NEXT MONDAY'S LUNCH" : "DAILY LUNCH SPECIAL"}
         />
         <p className="mt-1 text-center text-sm text-[#4A4640] max-w-xl mx-auto font-sans">
-          ランチタイム 11:00〜14:30（L.O. 14:00）｜ セルフコーヒー1杯無料 ＆ ご飯おかわり自由
+          ランチタイム 11:00〜14:30（L.O. 14:00）
         </p>
       </div>
 

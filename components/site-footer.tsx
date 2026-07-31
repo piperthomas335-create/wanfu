@@ -47,10 +47,6 @@ export function SiteFooter() {
         <span>© {new Date().getFullYear()} 四川料理 萬福 (MAN FUKU). All Rights Reserved.</span>
         <div className="flex items-center gap-4">
           <span>正宗老四川 / 伝統四川料理</span>
-          <span className="text-[#F8F6F1]/20">|</span>
-          <Link href="/admin" className="text-[#8C867D] hover:text-[#C69A56] transition-colors flex items-center gap-1">
-            <span>⚙ 管理者パネル</span>
-          </Link>
         </div>
       </div>
     </footer>
