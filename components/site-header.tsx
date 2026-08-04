@@ -11,7 +11,6 @@ const links = [
   ['/', 'ホーム'],
   ['/daily', '日替わり'],
   ['/course', '宴会・コース'],
-  ['/interior', '店内の様子'],
   ['/store', '店舗情報']
 ] as const
 
