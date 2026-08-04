@@ -6,7 +6,6 @@ const links = [
   ['/charm', '萬福の魅力'],
   ['/menu', 'お料理'],
   ['/course', '宴会・コース'],
-  ['/interior', '店内の様子'],
   ['/store', '店舗情報']
 ]
 

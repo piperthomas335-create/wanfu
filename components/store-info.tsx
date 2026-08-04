@@ -2,8 +2,9 @@
 
 import React from 'react'
 import { MapPin, Phone, Clock, Car, Users } from 'lucide-react'
-import { shop, img } from '@/lib/site-data'
+import { shop } from '@/lib/site-data'
 import { ChineseDivider } from '@/components/chinese-frame'
+import { PhotoCarousel } from '@/components/photo-carousel'
 import { Button } from '@/components/ui/button'
 
 const storeHighlights = [
@@ -105,30 +106,16 @@ export function StoreInfoSection() {
           </div>
         </div>
 
-        {/* Bottom Full-Width Row: 3 ENLARGED STORE PHOTOS SPANNING 100% CONTAINER WIDTH */}
-        <div className="mt-10 sm:mt-12 space-y-3">
+        {/* 実地撮影した店内・外観の厳選写真 */}
+        <div className="mt-12 sm:mt-16 space-y-6">
           <div className="flex items-center gap-3 border-b border-[#1A1816]/15 pb-2">
             <span className="h-3 w-3 bg-[#9E2A22] rotate-45" />
             <h4 className="font-serif text-base sm:text-lg font-bold text-[#1A1816]">
-              店内・外観のお写真（全90席・専用駐車場22台完備）
+              店内・外観の様子
             </h4>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
-            {[
-              [img.storefront, '外観・専用駐車場22台完備'],
-              [img.interiorTables, 'ゆったりとしたテーブル席'],
-              [img.interiorZashiki, '寛ぎのお座敷・プライベート個室（90席）'],
-            ].map(([src, title]) => (
-              <div key={title} className="relative aspect-[16/10] rounded-xl border-2 border-[#C69A56] overflow-hidden shadow-lg group hover:shadow-2xl transition-all">
-                <img src={src} alt={title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90" />
-                <span className="absolute bottom-3 inset-x-4 text-white text-sm font-serif font-bold text-center truncate tracking-wider drop-shadow">
-                  {title}
-                </span>
-              </div>
-            ))}
-          </div>
+          <PhotoCarousel />
         </div>
       </div>
     </section>

@@ -26,20 +26,10 @@ export interface ShopPhoto {
   featured?: boolean
 }
 
-export const photoCategories: { id: PhotoCategory; label: string; en: string }[] = [
-  { id: 'seats', label: '席・空間', en: 'SEATS' },
-  { id: 'exterior', label: '外観・入口', en: 'EXTERIOR' },
-  { id: 'cuisine', label: 'お料理', en: 'CUISINE' },
-  { id: 'kitchen', label: '厨房・作り手', en: 'KITCHEN' },
-]
-
-export const ratioClass: Record<PhotoRatio, string> = {
-  portrait: 'aspect-[4/5]',
-  landscape: 'aspect-[4/3]',
-  square: 'aspect-square',
-  wide: 'aspect-[16/9]',
-}
-
+/**
+ * 撮影済みの写真の全件。ここに載っていてもページに出るとは限らない。
+ * 実際に並ぶのは下の `curatedPhotos`（= `featured` を付けたもの）だけ。
+ */
 export const shopPhotos: ShopPhoto[] = [
   // ── 席・空間 ────────────────────────────────────────────
   {
@@ -92,6 +82,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '簾と障子がほどよく視線を遮り、隣を気にせずお過ごしいただけます。',
     category: 'seats',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07033.jpg',
@@ -116,6 +107,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '端から端まで見渡せる長卓。顔を合わせての乾杯にどうぞ。',
     category: 'seats',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07229.jpg',
@@ -140,6 +132,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: 'ステンドグラスの照明が、料理も人の顔もやわらかく照らします。',
     category: 'seats',
     ratio: 'portrait',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07044.jpg',
@@ -148,6 +141,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '4〜6名様にちょうどよい、囲まれた小上がりのお席。',
     category: 'seats',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07151.jpg',
@@ -173,6 +167,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '簾ごしのやわらかい光が入る、明るい席です。',
     category: 'seats',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07114.jpg',
@@ -181,6 +176,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '大皿を囲んで取り分けながら。ご家族でのお食事に。',
     category: 'seats',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07072.jpg',
@@ -207,7 +203,6 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '県道沿い、赤と黒の切妻屋根が目印です。',
     category: 'exterior',
     ratio: 'landscape',
-    featured: true,
   },
   {
     src: '/images/photos/dsc07221.jpg',
@@ -241,6 +236,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '市松のタイルを踏んで、暖簾の奥へ。',
     category: 'exterior',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07181.jpg',
@@ -252,24 +248,12 @@ export const shopPhotos: ShopPhoto[] = [
   },
 ]
 
-/** そのカテゴリの写真が 1 枚でもある場合のみタブとして出す */
-export function availableCategories(photos: ShopPhoto[] = shopPhotos) {
-  return photoCategories.filter(c => photos.some(p => p.category === c.id))
-}
-
-export function photosByCategory(category: PhotoCategory, photos: ShopPhoto[] = shopPhotos) {
-  return photos.filter(p => p.category === category)
-}
-
-export function featuredPhotos(limit: number, photos: ShopPhoto[] = shopPhotos) {
-  const featured = photos.filter(p => p.featured)
-  // featured が足りない場合は先頭から補う
-  return [...featured, ...photos.filter(p => !p.featured)].slice(0, limit)
-}
-
-/** 特定の 1 枚を取り出す。トップページなど固定位置で使う用 */
-export function photo(src: string): ShopPhoto {
-  const found = shopPhotos.find(p => p.src.endsWith(src))
-  if (!found) throw new Error(`写真が見つからない: ${src}`)
-  return found
-}
+/**
+ * 店舗情報ページに実際に並べる厳選分。
+ *
+ * 全部を並べると見る側の負担が大きいので、席の種類と外観が
+ * ひと通り伝わる最小限に絞ってある。入れ替えたいときは
+ * 上のリストで `featured` を付け替えるだけでよい。
+ * 並び順は `shopPhotos` の順序をそのまま引き継ぐ。
+ */
+export const curatedPhotos = shopPhotos.filter(p => p.featured)
