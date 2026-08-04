@@ -7,12 +7,13 @@ export const shop = {
 }
 
 export const img = {
-  storefront:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-gRsUAqh0BSVGXpF1byixuJAPuNLLxZ.png', mapo:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-qGenENt8t3kvQo5ye3BBeXSIFKxYxW.png', shuizhu:'/images/shuizhu-beef.png',
+  storefront:'/images/photos/dsc07221.jpg', mapo:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-qGenENt8t3kvQo5ye3BBeXSIFKxYxW.png', shuizhu:'/images/shuizhu-beef.png',
   maodu:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-3615JSLrg5XtyDexQ9nWRfL4ZvSaGh.png', guobaorou:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Gfm6LnH5IbTQ3JANkWzHA47x06YKUc.png', chahan:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-xNJIstXx8Kn8qWVSdJHR1Z5lhZFtc4.png',
   yuxiang:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Q6MmKJemL4QZm7e0I2dSXMLUYwO8VL.png', gyoza:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-OYzC1fRtYhINyrYv15FKl5CRkySdC5.png', shoronpo:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Wy81dM8g6fWsvDYTHTxgQtxDm7Vx7z.png',
   sunagimo:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-aOFE1LbliW5jvxRp610POSPmMHhqAv.png', teishoku1:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-6JmgkNAcHzFIMgNhWxjkPofft2m6FN.png', teishoku2:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-9ga5bki560y7S3QqcOngYS11GPQVb2.png', lunchBanner:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-KLIftXMudCMNl3T7RvkE1Z7d1sQRCK.png',
   menuFamily:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-vOrlZSOfNY2N0anMk4WkweMsOxNSjc.png', menuNoodle:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-yiNW6gvcwx8kNUPLAuQilkF6704rru.png', menuAppetizer:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-Orr8l0Hiz7WgFp55rC52wQVz8i8coE.png', menuSeafood:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-uW7d9KGw4LM5uQ2BibvAQxpC0cGMaf.png', menuDrinks:'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-jYdARJC63lSx2pjmep44xk9Dm4aVf4.png',
-  interiorEntry:'/images/interior-entry.png', interiorCounter:'/images/interior-counter.png', interiorTables:'/images/interior-tables.png', interiorZashiki:'/images/interior-zashiki.png', interiorCollage:'/images/interior-collage.png',
+  // 店内は実地撮影分に差し替え済み。個々の説明文は lib/gallery-data.ts 側に持たせている
+  interiorEntry:'/images/photos/dsc07179.jpg', interiorCounter:'/images/photos/dsc07049.jpg', interiorTables:'/images/photos/dsc07114.jpg', interiorZashiki:'/images/photos/dsc07128.jpg', interiorCollage:'/images/photos/dsc07226.jpg',
 }
 
 export const signatureDishes = [
@@ -27,8 +28,5 @@ export const gridDishes = [
 ]
 export const menuBooks = [
   {label:'前菜',image:img.menuAppetizer,alt:'前菜メニュー'}, {label:'麺類・冷麺',image:img.menuNoodle,alt:'麺類メニュー'}, {label:'海鮮・そば',image:img.menuSeafood,alt:'海鮮メニュー'}, {label:'コース料理',image:img.menuFamily,alt:'コースメニュー'}, {label:'お飲み物',image:img.menuDrinks,alt:'ドリンクメニュー'},
-]
-export const interiorPhotos = [
-  {src:img.interiorEntry,title:'暖簾の奥に広がる店内',caption:'木の温もりを感じる、落ち着いた空間。'}, {src:img.interiorTables,title:'ゆったりとしたテーブル席',caption:'ご家族から仕事仲間とのお食事まで。'}, {src:img.interiorZashiki,title:'寛ぎのお座敷',caption:'小さなお子様連れにも人気のお席です。'}, {src:img.interiorCollage,title:'宴会にも対応',caption:'長テーブルの設営にも柔軟に対応します。'}, {src:img.interiorCounter,title:'気軽なカウンター席',caption:'お一人でのランチや晩酌にも。'},
 ]
 export const news = [{date:'2026.07.24',text:'萬福の公式ウェブサイトをリニューアルしました。'}, {date:'毎日開催',text:'ランチ 11:00〜14:30／ディナー 17:00〜24:00'}, {date:'ご予約受付中',text:'2時間 食べ飲み放題 4,000円。各種ご宴会に。'}]
