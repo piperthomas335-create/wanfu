@@ -31,7 +31,7 @@ export function Hero() {
         </h1>
         <p className="mt-5 max-w-2xl text-pretty text-sm leading-relaxed text-[oklch(0.94_0.02_85)] sm:text-base">
           正宗の麻婆豆腐、水煮牛肉、麻辣毛肚に、辛くない鍋包肉まで。
-          82席の広々空間とお座敷個室、専用駐車場22台。ご家族の食事も企業のご宴会も、萬福で。
+          90席の広々空間とお座敷個室、専用駐車場22台。ご家族の食事も企業のご宴会も、萬福で。
         </p>
 
         <div className="mt-8 flex w-full flex-col items-center justify-center gap-3 sm:flex-row">
