@@ -305,3 +305,9 @@ img {
     letter-spacing: 0.1em;
   }
 }
+
+/* 自動送りスライドショーの進捗バー */
+@keyframes carousel-progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}

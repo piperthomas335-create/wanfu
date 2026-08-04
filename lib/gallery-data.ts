@@ -82,6 +82,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '簾と障子がほどよく視線を遮り、隣を気にせずお過ごしいただけます。',
     category: 'seats',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07033.jpg',
@@ -106,6 +107,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '端から端まで見渡せる長卓。顔を合わせての乾杯にどうぞ。',
     category: 'seats',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07229.jpg',
@@ -130,6 +132,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: 'ステンドグラスの照明が、料理も人の顔もやわらかく照らします。',
     category: 'seats',
     ratio: 'portrait',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07044.jpg',
@@ -138,6 +141,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '4〜6名様にちょうどよい、囲まれた小上がりのお席。',
     category: 'seats',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07151.jpg',
@@ -163,6 +167,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '簾ごしのやわらかい光が入る、明るい席です。',
     category: 'seats',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07114.jpg',
@@ -231,6 +236,7 @@ export const shopPhotos: ShopPhoto[] = [
     caption: '市松のタイルを踏んで、暖簾の奥へ。',
     category: 'exterior',
     ratio: 'landscape',
+    featured: true,
   },
   {
     src: '/images/photos/dsc07181.jpg',
