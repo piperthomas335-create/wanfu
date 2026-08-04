@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 
 const storeHighlights = [
   { icon: Clock, label: '営業時間', val: '11:00〜14:30 / 17:00〜24:00', note: '年中無休（夜遅くまで営業）' },
-  { icon: Users, label: '総席数', val: '90席（お座敷・個室・テーブル）', note: '少人数から最大30名様の宴会まで' },
+  { icon: Users, label: '総席数', val: '90席（お座敷・個室・テーブル）', note: '少人数から最大85名様の宴会まで' },
   { icon: Car, label: '駐車場', val: '専用駐車場 22台完備', note: '西尾張中央道沿い・お車で安心' },
   { icon: MapPin, label: 'アクセス', val: '名鉄尾西線「開明駅」徒歩約7分', note: '愛知県一宮市奥町字田畑26-1' },
 ]

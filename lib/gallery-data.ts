@@ -64,7 +64,7 @@ export const shopPhotos: ShopPhoto[] = [
     src: '/images/photos/dsc07226.jpg',
     alt: '座布団を並べた宴会用の長テーブル座敷',
     title: '宴会の大広間',
-    caption: '襖を開け放てば一続きの大広間に。最大30名様までの宴会を承ります。',
+    caption: '襖を開け放てば一続きの大広間に。最大85名様までの宴会を承ります。',
     category: 'seats',
     ratio: 'landscape',
     featured: true,
