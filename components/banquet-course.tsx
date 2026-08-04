@@ -52,6 +52,30 @@ export function BanquetCourseSection() {
         </p>
       </div>
 
+      {/* 0. 宴会場の実景バンド */}
+      <div className="container-site relative z-20 mt-8 sm:mt-10">
+        <figure className="relative overflow-hidden rounded-lg border-4 border-[#C69A56] shadow-2xl">
+          <div className="relative aspect-[16/9] sm:aspect-[21/9]">
+            <img
+              src="/images/photos/dsc07226.jpg"
+              alt="座布団を並べた萬福の宴会用大広間の長テーブル"
+              className="h-full w-full object-cover"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent" />
+          </div>
+
+          <figcaption className="absolute inset-x-0 bottom-0 p-5 text-left sm:p-8">
+            <span className="seal-badge shadow">最大85名様</span>
+            <h3 className="mt-2 font-serif text-xl font-extrabold tracking-wider text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] sm:text-3xl">
+              襖を開け放てば、一続きの大広間に。
+            </h3>
+            <p className="mt-1 max-w-2xl text-xs leading-relaxed text-[#F8F6F1]/90 drop-shadow sm:text-sm">
+              お座敷の仕切りを外して長卓を設営します。会社のご宴会も、ご親族の集まりも承ります。
+            </p>
+          </figcaption>
+        </figure>
+      </div>
+
       {/* 1. PLAQUE FEATURE BANNER */}
       <div className="container-site relative z-20 mt-8 sm:mt-10">
         <div className="w-full mx-auto bg-[#9E2A22] text-[#F8F6F1] rounded-lg border-4 border-[#C69A56] shadow-2xl p-6 sm:p-8 md:p-10 relative overflow-hidden">

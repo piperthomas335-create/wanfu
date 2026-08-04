@@ -4,7 +4,7 @@ import React from 'react'
 import { MapPin, Phone, Clock, Car, Users } from 'lucide-react'
 import { shop } from '@/lib/site-data'
 import { ChineseDivider } from '@/components/chinese-frame'
-import { PhotoGallery } from '@/components/photo-gallery'
+import { PhotoCarousel } from '@/components/photo-carousel'
 import { Button } from '@/components/ui/button'
 
 const storeHighlights = [
@@ -115,7 +115,7 @@ export function StoreInfoSection() {
             </h4>
           </div>
 
-          <PhotoGallery />
+          <PhotoCarousel />
         </div>
       </div>
     </section>
