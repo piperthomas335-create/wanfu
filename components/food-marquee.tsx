@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { img } from '@/lib/site-data'
 import { ChineseDivider } from '@/components/chinese-frame'
+import { CornerSeal } from '@/components/corner-seal'
 import { Button } from '@/components/ui/button'
 
 const dishes = [
@@ -67,12 +68,14 @@ export function FoodMarqueeSection() {
                 </div>
 
                 {/* Bottom Content */}
-                <div className="absolute bottom-3 left-3 right-3 z-10 text-left">
+                <div className="absolute bottom-3 left-3 right-3 z-10 pr-12 text-left">
                   <h3 className="font-serif text-lg font-bold text-white tracking-wide group-hover:text-[#C69A56] transition-colors">
                     {dish.name}
                   </h3>
                   <p className="text-xs text-[#F8F6F1]/80 font-sans truncate">{dish.sub}</p>
                 </div>
+
+                <CornerSeal text="オススメ" size="sm" />
 
                 {/* Golden Corner Accents on Hover */}
                 <div className="absolute top-1.5 right-1.5 w-4 h-4 border-t-2 border-r-2 border-[#C69A56] opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -113,12 +116,14 @@ export function FoodMarqueeSection() {
                 </div>
 
                 {/* Bottom Content */}
-                <div className="absolute bottom-3 left-3 right-3 z-10 text-left">
+                <div className="absolute bottom-3 left-3 right-3 z-10 pr-12 text-left">
                   <h3 className="font-serif text-lg font-bold text-white tracking-wide group-hover:text-[#C69A56] transition-colors">
                     {dish.name}
                   </h3>
                   <p className="text-xs text-[#F8F6F1]/80 font-sans truncate">{dish.sub}</p>
                 </div>
+
+                <CornerSeal text="オススメ" size="sm" />
 
                 {/* Golden Corner Accents on Hover */}
                 <div className="absolute top-1.5 right-1.5 w-4 h-4 border-t-2 border-r-2 border-[#C69A56] opacity-0 group-hover:opacity-100 transition-opacity" />

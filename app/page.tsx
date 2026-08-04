@@ -3,6 +3,7 @@ import { FoodMarquee } from '@/components/food-marquee'
 import { SiteShell } from '@/components/site-shell'
 import { VideoHero } from '@/components/video-hero'
 import { ChineseDivider, WanziBadge } from '@/components/chinese-frame'
+import { CornerSeal } from '@/components/corner-seal'
 import { img, news } from '@/lib/site-data'
 import { Button } from '@/components/ui/button'
 
@@ -42,7 +43,10 @@ export default function Page() {
         </div>
         <div className="container-site relative z-10 editorial-grid items-center gap-8">
           <div className="col-span-7 relative">
-            <img className="editorial-image rounded-sm border-2 border-[#C69A56] shadow-2xl" src={img.mapo} alt="萬福の四川麻婆豆腐" />
+            <div className="relative overflow-hidden rounded-sm border-2 border-[#C69A56] shadow-2xl">
+              <img className="editorial-image" src={img.mapo} alt="萬福の四川麻婆豆腐" />
+              <CornerSeal text="看板料理" size="lg" />
+            </div>
             <div className="absolute -bottom-6 -left-6 hidden md:block z-20">
               <WanziBadge text="麻婆豆腐" />
             </div>
@@ -85,6 +89,7 @@ export default function Page() {
                   <span className="absolute right-3 top-3 seal-badge shadow">
                     {badge}
                   </span>
+                  <CornerSeal text="オススメ" />
                 </div>
                 <figcaption className="p-5 text-left">
                   <h3 className="font-serif text-xl font-bold text-[#1A1816]">{name}</h3>
