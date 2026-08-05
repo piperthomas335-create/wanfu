@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 
@@ -69,7 +68,7 @@ export function VideoHero() {
 
       {/* 3. Hero Main Content Container (Fluid Responsive Screen Width Adaptation) */}
       <div className="container-site relative z-30 flex-1 flex flex-col justify-between pt-10 sm:pt-14 lg:pt-20 pb-8 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top & Middle Section: Badges, Responsive Headline, Description, Buttons */}
+        {/* Top & Middle Section: Badges, Responsive Headline, Description */}
         <div className="max-w-3xl space-y-6 sm:space-y-7 pt-2 sm:pt-6 lg:pt-8">
           {/* Animated Badges */}
           <AnimatePresence mode="wait">
@@ -119,31 +118,6 @@ export function VideoHero() {
             </motion.p>
           </AnimatePresence>
 
-          {/* Action Buttons using Unified Button Component */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeSlide.id + '-cta'}
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.45, delay: 0.24 }}
-              className="pt-4 flex flex-wrap items-center gap-4 sm:gap-5"
-            >
-              <Link href="/charm">
-                <Button variant="vermilion" size="lg">
-                  <span>萬福の魅力を見る</span>
-                  <span className="text-lg transition-transform group-hover/button:translate-x-1">→</span>
-                </Button>
-              </Link>
-
-              <Link href="/menu">
-                <Button variant="cream" size="lg">
-                  <span>お料理メニュー</span>
-                  <span className="text-base">📖</span>
-                </Button>
-              </Link>
-            </motion.div>
-          </AnimatePresence>
         </div>
 
         {/* 4. Bottom Footer Strip & Dish Selector Tabs */}

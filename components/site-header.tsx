@@ -57,7 +57,7 @@ export function SiteHeader() {
             <div className="absolute inset-0.5 border border-[#C69A56]/60 pointer-events-none" />
             <MapPin className="size-4 text-[#C69A56] group-hover:text-white transition-colors relative z-10 flex-shrink-0" />
             <div className="relative z-10 text-left flex flex-col justify-center">
-              <small className="block text-[9px] font-bold tracking-wider text-[#F8F6F1]/85 group-hover:text-white leading-tight">
+              <small className="block text-[12px] font-bold tracking-wider text-[#F8F6F1]/85 group-hover:text-white leading-tight">
                 一宮市奥町字田畑26-1
               </small>
               <b className="font-serif text-xs font-bold tracking-wide text-white flex items-center gap-1.5 mt-0.5 leading-tight">
@@ -75,7 +75,7 @@ export function SiteHeader() {
             <div className="absolute inset-0.5 border border-[#C69A56]/60 pointer-events-none" />
             <Phone className="size-4 text-[#C69A56] group-hover:text-white transition-colors relative z-10 flex-shrink-0" />
             <div className="relative z-10 text-left flex flex-col justify-center">
-              <small className="block text-[9px] font-bold tracking-wider text-[#F8F6F1]/85 group-hover:text-white leading-tight">
+              <small className="block text-[12px] font-bold tracking-wider text-[#F8F6F1]/85 group-hover:text-white leading-tight">
                 ご予約・電話問合せ
               </small>
               <b className="font-serif text-sm font-bold tracking-wide text-white leading-tight">{shop.tel}</b>
