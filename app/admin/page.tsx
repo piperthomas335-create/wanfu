@@ -8,6 +8,7 @@ import { img } from '@/lib/site-data'
 import {
   MenuItem,
   getStored5DaysMenu,
+  fetchRemoteMenu,
   saveStored5DaysMenu,
   resetStored5DaysMenu
 } from '@/lib/menu-store'
@@ -64,6 +65,8 @@ export default function AdminPage() {
   const [menu5Days, setMenu5Days] = useState<MenuItem[]>([])
   const [toastMessage, setToastMessage] = useState('')
   const [isUploading, setIsUploading] = useState(false)
+  const [isLoadingRemote, setIsLoadingRemote] = useState(true)
+  const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
     // Check if session is already authenticated
@@ -73,7 +76,15 @@ export default function AdminPage() {
         setIsAuthenticated(true)
       }
     }
+    // まず手元の控えを出して待ち時間を減らし、そのあとデータベースの内容で上書きする。
+    // 控えだけを見て編集すると、別の端末で更新された内容を古い内容で潰してしまう
     setMenu5Days(getStored5DaysMenu())
+    fetchRemoteMenu()
+      .then(remote => {
+        if (Array.isArray(remote) && remote.length > 0) setMenu5Days(remote)
+      })
+      .catch(() => showToast('⚠️ 最新のメニューを読み込めませんでした。電波の状態をご確認ください。'))
+      .finally(() => setIsLoadingRemote(false))
   }, [])
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
@@ -115,9 +126,16 @@ export default function AdminPage() {
     }
   }
 
-  const handleSave = () => {
-    saveStored5DaysMenu(menu5Days)
-    showToast('✅ 月〜金 5日間の定食メニュー（主菜・サイド料理①・サイド料理②・価格・補足小字）を保存・更新しました！')
+  const handleSave = async () => {
+    setIsSaving(true)
+    const result = await saveStored5DaysMenu(menu5Days)
+    setIsSaving(false)
+    if (result.ok) {
+      showToast('✅ 月〜金 5日間の定食メニューを保存しました。サイトに反映されています。')
+    } else {
+      // 保存できていないのに成功と伝えると、更新したつもりのまま古い内容が出続ける
+      showToast(`⚠️ 保存できませんでした：${result.error ?? '原因不明のエラー'}`)
+    }
   }
 
   const handleReset = () => {
@@ -202,19 +220,20 @@ export default function AdminPage() {
 
           {/* Form */}
           <div className="mt-10 space-y-8">
-            <div className="flex items-center justify-between border-b-2 border-[#9E2A22] pb-3">
-              <h3 className="font-serif text-xl font-bold text-[#1A1816]">
+            {/* スマートフォンでは横一列に収まらないので、見出しの下に操作を折り返す */}
+            <div className="flex flex-col gap-4 border-b-2 border-[#9E2A22] pb-3 sm:flex-row sm:items-center sm:justify-between">
+              <h3 className="font-serif text-lg font-bold text-[#1A1816] sm:text-xl">
                 月曜日〜金曜日 日替わり定食メニュー編集（全5日）
               </h3>
-              <div className="flex items-center gap-3">
+              <div className="flex flex-shrink-0 items-center gap-3">
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-[#1A1816] font-serif text-xs font-bold rounded border border-gray-400 transition-colors"
+                  className="whitespace-nowrap rounded border border-gray-400 bg-gray-200 px-4 py-2 font-serif text-xs font-bold text-[#1A1816] transition-colors hover:bg-gray-300"
                 >
-                  ↺ 初期化（リセット）
+                  ↺ 初期化
                 </button>
-                <Button variant="vermilion" size="md" onClick={handleSave} disabled={isUploading}>
+                <Button variant="vermilion" size="md" onClick={handleSave} disabled={isUploading || isSaving || isLoadingRemote} className="flex-1 whitespace-nowrap sm:flex-initial">
                   <span>保存してサイトに反映</span>
                   <span>💾</span>
                 </Button>
@@ -354,7 +373,7 @@ export default function AdminPage() {
             </div>
 
             <div className="text-center pt-4">
-              <Button variant="vermilion" size="lg" onClick={handleSave} disabled={isUploading}>
+              <Button variant="vermilion" size="lg" onClick={handleSave} disabled={isUploading || isSaving || isLoadingRemote}>
                 <span>月〜金 全5日間の変更を保存</span>
                 <span>💾</span>
               </Button>
